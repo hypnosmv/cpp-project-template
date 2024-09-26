@@ -11,7 +11,7 @@ With just one command, simple C++ projects can be compiled.
 See [predefined commands](#predefined-commands).
 
 ## First run
-> **Note:** CMake 3.15+ required
+> **Note:** CMake 3.15+ and Ninja required
 ```
 git clone https://github.com/hypnosmv/cpp-project-template.git
 cd cpp-project-template

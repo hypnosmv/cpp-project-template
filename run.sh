@@ -1,5 +1,8 @@
 #!/bin/bash
 
+build_system="Ninja"
+gtest_flags="--gtest_brief=1"
+
 commands=(
     "prep"
     "clean"
@@ -20,21 +23,14 @@ fi
 
 compile_cmake_target() {
     cmake --build "$build_dir" --target="$1"
-    cmake_exit_code="$?"
+}
 
-    if [ "$cmake_exit_code" -eq 1 ]; then
-        echo "Enter: ./run.sh prep"
-        return 1
-    elif [ "$cmake_exit_code" -eq 2 ]; then
-        echo "Files needed to compile the target are missing"
-        return 1
-    fi
-
-    return 0
+run_gtest_target() {
+    "$bin_dir"/"$1" "$gtest_flags"
 }
 
 if [ "$1" = "${commands[0]}" ]; then
-    cmake -S "$script_dir" -B "$build_dir"
+    cmake -S "$script_dir" -B "$build_dir" -G "$build_system"
 
 elif [ "$1" = "${commands[1]}" ]; then
     rm -rf "$build_dir"
@@ -50,19 +46,11 @@ elif [ "$1" = "${commands[4]}" ]; then
 
 elif [ "$1" = "${commands[5]}" ]; then
     compile_cmake_target ut
-    if [ "$?" -eq 0 ]; then
-        "$bin_dir"/ut
-    else
-        exit 1
-    fi
+    run_gtest_target ut
 
 elif [ "$1" = "${commands[6]}" ]; then
     compile_cmake_target it
-    if [ "$?" -eq 0 ]; then
-        "$bin_dir"/it
-    else
-        exit 1
-    fi
+    run_gtest_target it
 
 else
     echo "Unknown command: $1"
