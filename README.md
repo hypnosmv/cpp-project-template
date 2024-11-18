@@ -42,7 +42,7 @@ Compile the desired target(s), e.g., `./run.sh ut`.
 
 This is not the only viable project structure.\
 CMake looks for .cpp files under the `src` directory and under the `test/ut` and `test/it` directories.\
-In case of .hpp files, it looks under any `include` subdirectories that are under the `src` directory.
+In case of .hpp files, it looks under any `include` subdirectories under the above-mentioned directories.
 ```
 .
 ├── .vscode
